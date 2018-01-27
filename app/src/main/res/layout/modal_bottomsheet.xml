@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#F3F3F3"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:text="@string/bs_header"
+        android:gravity="center"
+        android:textColor="#B0B0B0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:weightSum="1">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/party"
+                android:background="#F3F3F3"
+                />
+            <Button
+                android:text="Party"
+                style="@style/action_button_bs"
+                android:textAllCaps="false"
+                android:id="@+id/btnParty"
+                android:layout_weight="0.49" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/wedding"
+                android:background="#F3F3F3"
+                />
+            <Button
+                android:text="Wedding Contribution"
+                style="@style/action_button_bs"
+                android:id="@+id/btnWedding"
+                android:layout_weight="0.26" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/birthday"
+                android:background="#F3F3F3"
+                />
+            <Button
+                android:text="BirthDay Surprise"
+                style="@style/action_button_bs"
+                android:id="@+id/btnBDParty"
+                android:layout_weight="0.37" />
+        </LinearLayout>
+
+       <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           android:weightSum="1">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/bridal"
+                android:background="#F3F3F3"
+                />
+            <Button
+                android:text="Bridal shower"
+                style="@style/action_button_bs"
+                android:textAllCaps="false"
+                android:id="@+id/btnBride"
+                android:layout_weight="0.45" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#F3F3F3"
+                android:src="@mipmap/save" />
+
+            <Button
+                android:id="@+id/btnMerry"
+                style="@style/action_button_bs"
+                android:text="Merry go round (Ikimina)"
+                android:textAllCaps="false"
+                android:layout_width="wrap_content"
+                android:layout_weight="0.15" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/funds"
+                android:background="#F3F3F3"
+                />
+            <Button
+                android:text="FundRaising"
+                style="@style/action_button_bs"
+                android:textAllCaps="false"
+                android:id="@+id/btnFundRaising"
+                android:layout_weight="0.47" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/orther"
+                android:background="#F3F3F3"
+                />
+            <Button
+                android:text="Other"
+                style="@style/action_button_bs"
+                android:textAllCaps="false"
+                android:id="@+id/btnOther"
+                android:layout_weight="0.49" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="@string/bs_cancel"
+                android:textColor="#D04D5B"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                style="@style/action_button_bs"
+                android:id="@+id/btn_cancel"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
+
+
+

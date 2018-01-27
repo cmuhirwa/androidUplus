@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "279425315036",
+    "firebase_url": "https://uplusmp.firebaseio.com",
+    "project_id": "uplusmp",
+    "storage_bucket": "uplusmp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279425315036:android:e8098cc3c32f6567",
+        "android_client_info": {
+          "package_name": "info.androidhive.uplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279425315036-qbhmf23c9vcfaef9n44vbp0jevr66ibg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEa7XnYvFD9CgyyZCClaLk638MwbOmzZ8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

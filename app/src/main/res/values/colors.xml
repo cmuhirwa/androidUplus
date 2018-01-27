@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1f6680</color>
+    <color name="colorPrimaryDark">#033f48</color>
+    <color name="colorAccent">#006144</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#ce2900</color>
+
+    <color name="light_font">#FBFBFB</color>
+    <color name="text_shadow">#7F000000</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="scrollbar">#1976D2</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="year">#999999</color>
+    <color name="title">#222222</color>
+</resources>

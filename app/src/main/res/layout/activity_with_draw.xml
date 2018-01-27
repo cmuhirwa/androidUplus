@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4eade"
+    tools:context="info.androidhive.uplus.WithDraw">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:id="@+id/appBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/newGroupToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="@android:drawable/ic_menu_close_clear_cancel"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:title="WithDraw Money" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:textColor="#333"
+                android:textSize="20sp"
+                android:textAlignment="gravity"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10sp"
+                android:text="Amount" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/txtWithDrawAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:inputType="number"
+                    android:textColor="#000"
+                    android:minWidth="150dp"
+                    android:background="@drawable/round"
+                    android:selectAllOnFocus="false" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Of"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:textColor="#333"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <TextView
+                    android:id="@+id/txtGroupAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="Amount Here"
+                    android:textSize="16sp"
+                    android:background="#EFEFEF"
+                    android:padding="10dp"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="30dp"
+                android:background="#00796b" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="From"
+                android:textSize="20sp"
+                android:layout_marginTop="30dp"
+                android:textColor="#333"
+
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <Spinner
+                    android:id="@+id/spnWithdrawAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minWidth="110dp"
+                    >
+
+                </Spinner>
+                <EditText
+                    android:id="@+id/txtWithDrawPhone"
+                    android:layout_width="182dp"
+                    android:layout_height="40dp"
+                    android:minWidth="150dp"
+                    android:background="@drawable/round"
+                    android:inputType="phone"
+                    android:hint="+257xxxxxxxxx"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btnWithDraw"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="WITHDRAW"
+            android:background="#18b985"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</RelativeLayout>
