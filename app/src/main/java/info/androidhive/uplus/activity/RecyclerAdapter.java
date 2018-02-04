@@ -37,30 +37,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     Uri uri;
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         public CardView mCardView;
-        public TextView mTextView;
-        public TextView moneyTextView;
-        public TextView textView2;
+        public TextView mTextView, moneyTextView, textView2, mMoneyOut;
         public ImageView imageView;
         public MyViewHolder(View v){
             super(v);
 
-            mCardView = (CardView) v.findViewById(R.id.card1);
-            mTextView = (TextView) v.findViewById(R.id.txtMember);
-            moneyTextView = (TextView) v.findViewById(R.id.textView3);
-            textView2=(TextView)v.findViewById(R.id.textView2);
-            imageView=(ImageView)v.findViewById(R.id.imageView);
+            mCardView       = (CardView) v.findViewById(R.id.card1);
+            mTextView       = (TextView) v.findViewById(R.id.txtMember);
+            moneyTextView   = (TextView) v.findViewById(R.id.textView3);
+            textView2       = (TextView) v.findViewById(R.id.textView2);
+            //mMoneyOut       = (TextView) v.findViewById(R.id.outAmount);
+            imageView       = (ImageView)v.findViewById(R.id.imageView);
 
         }
 
     }
 
     public RecyclerAdapter(ArrayList<String> mDataset, ArrayList<String> mImage,ArrayList<String> mAmount,ArrayList<String> mType, Context ctx){
-        this.mDataset   =mDataset;
-        this.mImage     =mImage;
-        this.mAmount    =mAmount;
-        this.mType      =mType;
-        this.ctx        =ctx;
-
+        this.mDataset   = mDataset;
+        this.mImage     = mImage;
+        this.mAmount    = mAmount;
+        this.mType      = mType;
+        this.ctx        = ctx;
     }
     @Override
     public RecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -74,6 +72,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.mTextView.setText(mDataset.get(position));
         holder.moneyTextView.setText(currencyConverter(mAmount.get(position)));
         holder.textView2.setText(mType.get(position));
+        //holder.mMoneyOut.setText("100");
 
         uri = Uri.parse(mImage.get(position));
         // Context context = holder.imageView.getContext();
@@ -103,23 +102,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             {
                 ColorGenerator generator = ColorGenerator.MATERIAL;
                 int color1 = generator.getRandomColor();
-
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(textTobeConverted(mDataset.get(position)), color1);
                 holder.imageView.setImageDrawable(drawable);
             }
-
         }
         else
         {
             ColorGenerator generator = ColorGenerator.MATERIAL;
             int color1 = generator.getRandomColor();
-
             TextDrawable drawable = TextDrawable.builder()
                     .buildRound(textTobeConverted(mDataset.get(position)), color1);
             holder.imageView.setImageDrawable(drawable);
         }
-
 
         /*
         Picasso.with(context).load(uri).into(holder.imageView);
@@ -146,12 +141,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         if(length>0)
         {
             newData=data.substring(0,1);
-
         }
         return newData;
     }
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mDataset.size();
     }
 

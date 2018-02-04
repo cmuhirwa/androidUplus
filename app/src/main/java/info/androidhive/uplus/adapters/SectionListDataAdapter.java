@@ -5,6 +5,7 @@ package info.androidhive.uplus.adapters;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,10 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import info.androidhive.uplus.EventPage;
 import info.androidhive.uplus.R;
 import info.androidhive.uplus.models.SingleItemModel;
+import info.androidhive.uplus.activity.HomeActivity;
 
 import java.util.ArrayList;
 
@@ -33,7 +36,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
     @Override
     public SingleItemRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_single_card, null);
-        SingleItemRowHolder mh = new SingleItemRowHolder(v);
+        SingleItemRowHolder mh = new SingleItemRowHolder(v, mContext);
         return mh;
     }
 
@@ -67,7 +70,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
         protected ImageView itemImage;
 
 
-        public SingleItemRowHolder(View view) {
+        public SingleItemRowHolder(View view,final Context context) {
             super(view);
             this.tvTitle        = (TextView) view.findViewById(R.id.tvTitle);
             this.eventLoaction  = (TextView) view.findViewById(R.id.eventLocation);
@@ -76,7 +79,11 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), tvTitle.getText(), Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(context,EventPage.class);
+                            intent.putExtra("EventName",tvTitle.getText());
+                            intent.putExtra("EventLocation",eventLoaction.getText());
+                            HomeActivity.homepage.startActivity(intent);
+                    //Toast.makeText(v.getContext(), tvTitle.getText(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

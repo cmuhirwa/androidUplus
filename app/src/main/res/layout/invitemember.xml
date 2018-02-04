@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    app:cardElevation="4dp"
+    android:elevation="10dp"
+    app:cardCornerRadius="10dp"
+    android:background="@drawable/facebook_avatar">
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/memberImage"
+            android:scaleType="centerCrop"
+            />
+
+</android.support.v7.widget.CardView>

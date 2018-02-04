@@ -99,7 +99,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".groupdetails">
+        <activity android:name=".groupdetails"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="info.androidhive.materialtabs.groupdetails" />
 
@@ -166,7 +167,8 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ScrollUser"
             android:label="@string/title_activity_scroll_user"
@@ -174,12 +176,14 @@
         <activity
             android:name=".Testingapp"
             android:label="@string/title_activity_testingapp"
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/MyMaterialTheme"
+            android:screenOrientation="portrait">
            <intent-filter>
                <action android:name="info.androidhive.uplus.Testingapp" />
             </intent-filter>
         </activity>
         <activity android:name=".ChatHelp"/>
         <activity android:name=".Invitation"/>
+        <activity android:name=".EventPage"/>
     </application>
 </manifest>

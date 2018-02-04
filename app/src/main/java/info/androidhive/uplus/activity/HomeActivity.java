@@ -101,6 +101,7 @@ import info.androidhive.uplus.SettingsActivity;
 import info.androidhive.uplus.Testingapp;
 import info.androidhive.uplus.Transactions;
 import info.androidhive.uplus.fragments.OneFragment;
+//import info.androidhive.uplus.fragments.FiveFragment;
 import info.androidhive.uplus.fragments.ThreeFragment;
 import info.androidhive.uplus.fragments.TwoFragment;
 import info.androidhive.uplus.groupdetails;
@@ -178,14 +179,13 @@ public class HomeActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(3);
 
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         //setupTabIcons();
-
-
 
         myDb = new DatabaseHelper(this);
         Intent intent=getIntent();
@@ -195,7 +195,6 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         FirebaseInstanceId.getInstance().getToken();
-
 
         recyclerView=(RecyclerView)findViewById(R.id.rv_recycler_view);
         layoutManager=new LinearLayoutManager(getApplicationContext());
@@ -305,18 +304,17 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        //tabLayout.getTabAt(4).setIcon(R.drawable.your_camera_icon);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new OneFragment(), "Groups");
         adapter.addFrag(new TwoFragment(), "Transfers");
-        adapter.addFrag(new ThreeFragment(), " Events");
+        adapter.addFrag(new ThreeFragment(), " Events ");
+        //tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         viewPager.setAdapter(adapter);
     }
-
-
-
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();

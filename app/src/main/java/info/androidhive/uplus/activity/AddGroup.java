@@ -92,12 +92,12 @@ public class AddGroup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
-        fafa=this;
-        firebaseStorage=FirebaseStorage.getInstance();
+        fafa    =this;
+        firebaseStorage =FirebaseStorage.getInstance();
         //storageReference=firebaseStorage.getReference().child("group_photos");
-        thumbImageRef = FirebaseStorage.getInstance().getReference().child("group_photos");
+        thumbImageRef   = FirebaseStorage.getInstance().getReference().child("group_photos");
 
-        btnImgGroup=(ImageView) findViewById(R.id.btnImgGroup);
+        btnImgGroup     =(ImageView) findViewById(R.id.btnImgGroup);
         btnImgGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,64 +310,7 @@ public class AddGroup extends AppCompatActivity {
         }
     }
 
-    private void showimg(String f)
-{
-   file=f.toString();
-}
-public void showf()
-{
-    Toast.makeText(getApplicationContext(),file,Toast.LENGTH_LONG).show();
-}
-    private String getMimeType(String path) {
 
-        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
-
-        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-    }
-
-        //END OF IMPLEMEMNTED CODES
-    private void enable_button() {
-
-        new MaterialFilePicker()
-                .withActivity(AddGroup.this)
-                .withRequestCode(10)
-                .start();
-
-
-    }
-
-    public void uploadImage()
-    {
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, uploadURL,
-                new Response.Listener<String>()
-                {
-
-                    @Override
-                    public void onResponse(String response) {
-                        String resp=response;
-                        Toast.makeText(AddGroup.this,resp,Toast.LENGTH_LONG).show();
-                    }
-                }, new Response.ErrorListener(){
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params=new HashMap<>();
-
-                params.put("name",txtGroup.getText().toString().trim());
-                params.put("image",imageToString(bitmap));
-
-
-                return params;
-            }
-        };
-        MySingleton.getInstance(AddGroup.this).addToRequestQueue(stringRequest);
-    }
     public String imageToString(Bitmap bitmap)
     {
         ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
@@ -418,11 +361,6 @@ public void showf()
             String errors="";
             String method ="register";
             String adminId=SharedPrefManager.getInstance(getApplicationContext()).getUserId();
-            String bankId ="2";
-            String adminPhone ="078755556";
-            String getThem="";
-            //validate data from the user
-            //Toast.makeText(this,targetAmount,Toast.LENGTH_LONG).show();
             if(grpName.length()<3)
             {
                 errors="Please enter valid Group Name";
@@ -435,7 +373,7 @@ public void showf()
             }
             else if(perPerson=="")
             {
-                errors="please Enter Valid Per Person Amount";
+                errors="Please Enter Contribution Per Person Amount";
                 boolData=false;
             }
             else
@@ -453,20 +391,6 @@ public void showf()
                         {
                             if(isNetworkAvailable()==false)
                             {
-                                //add data to local database
-                                //saveGroupLocal=new SaveGroupLocal(this);
-                                //int current=saveGroupLocal.returnCurrentId();
-                                //current=current+1;
-                                //String groupId=String.valueOf(current);
-//                                state=saveGroupLocal.addGroupLocal(groupId,grpName,targetType,targetAmount,perPersonType,perPerson,adminId,adminPhone,bankId,"0");
-//                                if(state)
-//                                {
-//                                    Toast.makeText(getApplicationContext(),"Group Saved to Local Database",Toast.LENGTH_LONG).show();
-//                                }
-//                                else
-//                                {
-//                                    Toast.makeText(getApplicationContext(),"Group Not Added Please check you connecction",Toast.LENGTH_LONG).show();
-//                                }
                                 Toast.makeText(getApplicationContext(),"No internet connection!",Toast.LENGTH_LONG).show();
                             }
                             else

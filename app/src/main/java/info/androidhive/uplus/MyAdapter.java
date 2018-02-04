@@ -157,7 +157,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         //int random = rand.nextInt(finalAmaunt)+0;
         int current=Integer.parseInt(groupBalance.get(position));
         int max=Integer.parseInt(data1.get(position));
-        int progressValue= (current*100)/max;
+        if(current < 1)
+        {
+            current = 1;
+        }
+        if(max < 1)
+        {
+            max = current;
+        }
+        Log.e("current", groupBalance.get(position));
+        Log.e("max", data1.get(position));
+        int progressValue = (current*100)/max;
         holder.progressBar.setProgress(progressValue);
         holder.moneyTextView.setText(currencyConverter(data1.get(position)));
         holder.mTextView.setText(data.get(position));

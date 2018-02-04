@@ -2,17 +2,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="info.androidhive.uplus.fragments.FiveFragment">
+    tools:context="info.androidhive.uplus.fragments.FiveFragment"
+    android:background="#f4ece2">
 
     <ImageView
         android:id="@+id/churchBg"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@drawable/church"/>
+    <RelativeLayout
+        android:id="@+id/eventInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/churchBg">
 
+        <android.support.v7.widget.CardView
+            android:elevation="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black_overlay">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#eff1f0"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+                <TextView
+                    android:id="@+id/eventName"
+                    android:padding="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Event Name: "/>
+                <TextView
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:id="@+id/eventLocation"
+                    android:layout_below="@+id/eventName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Event Location:"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
     <TabHost
         android:id="@+id/tabChurch"
-        android:layout_below="@+id/churchBg"
+        android:layout_below="@+id/eventInfo"
         android:layout_width="match_parent"
         android:layout_height="300dip">
 
@@ -31,24 +69,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/Feeds"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/CGroups"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/Donate"
+                    android:id="@+id/Tickets"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -79,29 +102,28 @@
                                 android:padding="15dp"
                                 android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="Offering"/>
+                                android:text="VIP:"/>
+
                             <Button
-                                android:id="@+id/pledgeOff"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toLeftOf="@+id/payOff"
-                                android:text="PLEDGE"
-                                android:textColor="#fff"
-                                android:textSize="16sp"
-                                android:theme="@style/AppTheme.Gray"
-                                />
-                            <Button
-                                android:id="@+id/payOff"
+                                android:id="@+id/payOff1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentEnd="true"
-                                android:text="Pay"
+                                android:text="Book"
                                 android:textColor="#fff"
                                 android:textSize="16sp"
                                 android:theme="@style/AppTheme.Gray"
                                 />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5,000 Rwf"
+                                android:textStyle="bold"
+                                android:textSize="18dp"
+                                android:padding="15dp"
+                                android:layout_toLeftOf="@id/payOff1"/>
                         </RelativeLayout>
 
                     </android.support.v7.widget.CardView>
@@ -123,7 +145,7 @@
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true">
                             <TextView
-                                android:id="@+id/txtTight"
+                                android:id="@+id/ticket2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentTop="true"
@@ -132,39 +154,67 @@
                                 android:padding="15dp"
                                 android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="Tithe"/>
+                                android:text="Other:"/>
                             <Button
-                                android:id="@+id/titheOff"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toLeftOf="@+id/payTithe"
-                                android:text="SET"
-                                android:textColor="#fff"
-                                android:textSize="16sp"
-                                android:theme="@style/AppTheme.Gray"
-                                />
-
-                            <Button
-                                android:id="@+id/payTithe"
+                                android:id="@+id/payOff2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentEnd="true"
-                                android:text="Pay"
+                                android:text="Book"
                                 android:textColor="#fff"
                                 android:textSize="16sp"
                                 android:theme="@style/AppTheme.Gray"
                                 />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2,000 Rwf"
+                                android:textStyle="bold"
+                                android:textSize="18dp"
+                                android:padding="15dp"
+                                android:layout_toLeftOf="@id/payOff2"/>
                         </RelativeLayout>
 
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Mytickets"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <android.support.v7.widget.CardView
+                        android:elevation="2dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/black_overlay">
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="200dp"
+                            android:orientation="horizontal"
+                            android:background="#eff1f0"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:clickable="true">
+
+
+                            <com.google.android.gms.maps.MapView
+                                android:id="@+id/mapView"
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp" />
+                        </RelativeLayout>
 
                     </android.support.v7.widget.CardView>
+
 
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
-
 
 </RelativeLayout>

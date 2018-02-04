@@ -132,7 +132,7 @@ public class groupdetails extends AppCompatActivity
         textView3       =(TextView)findViewById(R.id.textView3);
         txtCurrent      =(TextView)findViewById(R.id.txtCurrent);
         txtPercentage   =(TextView)findViewById(R.id.txtPercentage);
-        outAmount       =(TextView)findViewById(R.id.outAmount);
+        txtPercentage   =(TextView)findViewById(R.id.txtPercentage);
         progressBar     = (ProgressBar)findViewById(R.id.progressBar);
         appBtn          = (Button) findViewById(R.id.approveReq);
         rejBtn          = (Button) findViewById(R.id.rejReq);
@@ -227,7 +227,6 @@ public class groupdetails extends AppCompatActivity
             saveMembers.recreateTable();
 
             textView3.setText(currencyConverter(Amount));
-            //outAmount.setText(currencyConverter(Amount));
             loopLocal();
             //viewData1();
             profile_id=(ImageView)findViewById(R.id.profile_id);
@@ -455,7 +454,7 @@ public class groupdetails extends AppCompatActivity
 
     private void dynamicToolbarColor()
     {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.wed);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.profile);
         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette palette) {
