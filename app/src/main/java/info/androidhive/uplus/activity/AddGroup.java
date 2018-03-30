@@ -427,12 +427,12 @@ public class AddGroup extends AppCompatActivity {
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Group Image");
-            builder.setMessage("Are you sure you want without a group image?");
+            builder.setMessage("Are you sure you want to continue without a group image?");
             builder.setCancelable(true);
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(),"No Image", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"No Image", Toast.LENGTH_LONG).show();
                     Boolean boolData;
                     String grpName=txtGroup.getText().toString();
                     targetAmount=txtAMounts.getText().toString();

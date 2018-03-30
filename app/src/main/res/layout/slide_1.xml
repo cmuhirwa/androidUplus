@@ -21,11 +21,11 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
 
-        android:background="@drawable/screen1"/>
+        android:background="@drawable/screen1a"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Uplus helps you to pull money together \nwith your friends and family in a group \nand make something happen"
+        android:text="Uplus helps you to collect money \n From your friends and family in a group \nand make something happen"
         android:paddingTop="30dp"
         android:textColor="#eaeaea"
         android:textSize="16sp"

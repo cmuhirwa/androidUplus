@@ -4,7 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
+
+import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,6 +20,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import info.androidhive.uplus.activity.HomeActivity;
 
@@ -42,9 +47,10 @@ public class InviteWorker extends AsyncTask<String,Void,String> {
         {
             try{
                 String action="inviteMember";
-                groupId=params[1];
-                String invitorId=params[2];
-                String invitedPhone=params[3];
+                groupId                 =params[1];
+                String invitorId        =params[2];
+                String invitedPhone     =params[3];
+                Log.e("to invite", invitedPhone);
                 URL url=new URL(login_url);
                 HttpURLConnection httpCon=(HttpURLConnection)url.openConnection();
                 //set POST as request method
@@ -56,7 +62,8 @@ public class InviteWorker extends AsyncTask<String,Void,String> {
                 String post_data= URLEncoder.encode("action","UTF-8")+"="+URLEncoder.encode(action,"UTF-8")+"&"
                         +URLEncoder.encode("groupId","UTF-8")+"="+URLEncoder.encode(groupId,"UTF-8")+"&"
                         +URLEncoder.encode("invitorId","UTF-8")+"="+URLEncoder.encode(invitorId,"UTF-8")+"&"
-                        +URLEncoder.encode("invitedPhone","UTF-8")+"="+URLEncoder.encode(invitedPhone,"UTF-8");
+
+                        +URLEncoder.encode("invitedPhone","UTF-8")+"="+URLEncoder.encode(invitedPhone , "UTF-8");
                 bufferWriter.write(post_data);
                 bufferWriter.flush();
                 bufferWriter.close();

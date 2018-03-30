@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:divider="#fff"
+        android:dividerHeight="0dp">
     </ListView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/histBtn"

@@ -40,6 +40,8 @@ import info.androidhive.uplus.activity.AddGroup;
 import info.androidhive.uplus.activity.HomeActivity;
 import info.androidhive.uplus.activity.SharedPrefManager;
 
+import com.baoyz.widget.PullRefreshLayout;
+
 
 public class OneFragment extends Fragment{
     RecyclerView recyclerView;
@@ -55,6 +57,8 @@ public class OneFragment extends Fragment{
     RecyclerView.LayoutManager layoutManager;
     RelativeLayout layoutHomeGuide;
     public static int counter=0;
+    public static int oGroups =0;
+    PullRefreshLayout layout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -65,17 +69,40 @@ public class OneFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_one, container, false);
-        layoutHomeGuide=(RelativeLayout)rootView.findViewById(R.id.layoutHomeGuide);
-        fabbtn=(FloatingActionButton)rootView.findViewById(R.id.fabbtn);
-        recyclerView=(RecyclerView)rootView.findViewById(R.id.rv_recycler_view);
-        layoutManager=new LinearLayoutManager(getActivity());
-        helper=new DbHelper(getActivity());
+
+        HomeActivity activity       = (HomeActivity) getActivity();
+        String myDataFromActivity   = activity.getMyData();
+        oGroups                     = Integer.parseInt(myDataFromActivity);
+        Log.e("SentData",myDataFromActivity);
+
+        View rootView   = inflater.inflate(R.layout.fragment_one, container, false);
+        layoutHomeGuide =(RelativeLayout)rootView.findViewById(R.id.layoutHomeGuide);
+        fabbtn          =(FloatingActionButton)rootView.findViewById(R.id.fabbtn);
+        recyclerView    =(RecyclerView)rootView.findViewById(R.id.rv_recycler_view);
+        layoutManager   =new LinearLayoutManager(getActivity());
+        helper          =new DbHelper(getActivity());
+        layout          = (PullRefreshLayout) rootView.findViewById(R.id.pullHomeRefresh);
+        layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+
+
+            @Override
+            public void onRefresh() {
+
+                layout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshGroups();
+                        // start refresh
+                        layout.setRefreshing(false);
+                    }
+                }, 3000);
+            }
+        });
+
         //helper.clearTable();
         helper.recreateTable();
         //fetchLocal();
         loopLocalData();
-        HomeActivity activity = (HomeActivity) getActivity();
         if(activity instanceof HomeActivity){
 
         }
@@ -117,8 +144,8 @@ public class OneFragment extends Fragment{
 
     //function to check if network is avalaible or not
     public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager=(ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        ConnectivityManager connectivityManager =(ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo           = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
     //check if internet is working
@@ -151,7 +178,46 @@ public class OneFragment extends Fragment{
             groupNames.clear();
             groupIds.clear();
             targetAmount.clear();
+        }
+        String buffer="";
 
+        Cursor cursor=helper.getAllData();
+        Integer nGroups = 0;
+        Log.e("GroupsWeDHave", String.valueOf(oGroups));
+        while (cursor.moveToNext())
+        {
+            nGroups++;
+            groupIds.add(cursor.getString(cursor.getColumnIndex(DbContract.GROUP_ID)));
+            groupNames.add(cursor.getString(cursor.getColumnIndex(DbContract.GROUP_NAME)));
+            targetAmount.add(cursor.getString(cursor.getColumnIndex(DbContract.TARGET_AMOUNT)));
+            groupImage.add(cursor.getString(cursor.getColumnIndex(DbContract.GROUPIMAGE)));
+            groupBalance.add(cursor.getString(cursor.getColumnIndex(DbContract.GROUP_BALANCE)));
+            // Toast.makeText(getActivity(),String.valueOf(cursor.getString(cursor.getColumnIndex(DbContract.GROUP_BALANCE))),Toast.LENGTH_LONG).show();
+            buffer+=(cursor.getString(cursor.getColumnIndex(DbContract.GROUP_NAME)))+"\n";
+
+        }
+        cursor.close();
+
+        if(nGroups != oGroups)
+        {
+            Log.e("GroupsWeHad", String.valueOf(oGroups));
+            adapter=new MyAdapter(groupNames,targetAmount,groupImage,getActivity(),recyclerView,groupIds,groupBalance);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(adapter);
+            layoutManager=new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            adapter.notifyDataSetChanged();
+            oGroups = nGroups;
+        }
+    }
+
+    public void refreshGroups()
+    {
+        if(groupNames.size()>0)
+        {
+            groupNames.clear();
+            groupIds.clear();
+            targetAmount.clear();
         }
         String buffer="";
 
@@ -166,15 +232,19 @@ public class OneFragment extends Fragment{
             // Toast.makeText(getActivity(),String.valueOf(cursor.getString(cursor.getColumnIndex(DbContract.GROUP_BALANCE))),Toast.LENGTH_LONG).show();
             buffer+=(cursor.getString(cursor.getColumnIndex(DbContract.GROUP_NAME)))+"\n";
 
+            Log.e("NewAmount ",cursor.getString(cursor.getColumnIndex(DbContract.GROUP_BALANCE)));
         }
         cursor.close();
-        adapter=new MyAdapter(groupNames,targetAmount,groupImage,getActivity(),recyclerView,groupIds,groupBalance);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
-        layoutManager=new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        adapter.notifyDataSetChanged();
+
+
+            adapter=new MyAdapter(groupNames,targetAmount,groupImage,getActivity(),recyclerView,groupIds,groupBalance);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(adapter);
+            layoutManager=new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            adapter.notifyDataSetChanged();
     }
+
     public void fetchLocal()
     {
         for(int i=0;i<groupImage.size();i++)
@@ -234,7 +304,7 @@ public class OneFragment extends Fragment{
                         if(groupNames.size()>0)
                         {
                             layoutHomeGuide.setVisibility(View.INVISIBLE);
-                           // displayGroups();
+                            displayGroups();
                         }
                         else
                         {

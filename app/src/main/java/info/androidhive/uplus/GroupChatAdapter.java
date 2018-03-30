@@ -37,15 +37,9 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.MyVi
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        if(viewType == 1){
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.chatbubble, parent, false);
-            return new MyViewHolder(v);
-        }else{
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.chatbubble1, parent, false);
-            return new MyViewHolder(v);
-        }
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatbubble, parent, false);
+        MyViewHolder vh = new MyViewHolder(v);
+        return vh;
     }
 
     @Override
@@ -54,24 +48,7 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.MyVi
         holder.message_text.setText(SenderMessage.get(position));
         holder.charterName.setText(OtherSenderMessage.get(position));
     }
-    public String currencyConverter(String data)
-    {
-        Locale locale = new Locale("RWF", "RWF");
-        Double value=Double.parseDouble(data);
-        DecimalFormat decimalFormat=new DecimalFormat("#,### RWF");
-        return(decimalFormat.format(value));
-    }
-    public String textTobeConverted(String data)
-    {
-        String newData="D";
-        int length=data.length();
-        if(length>0)
-        {
-            newData=data.substring(0,1);
 
-        }
-        return newData;
-    }
     @Override
     public int getItemCount() {
             return SenderMessage.size();

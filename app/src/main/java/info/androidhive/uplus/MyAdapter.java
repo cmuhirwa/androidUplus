@@ -51,16 +51,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     Context ctx;
     RecyclerView rec;
     public MyAdapter(ArrayList<String>data,ArrayList<String>data1,ArrayList<String>groupImage,Context ctx,RecyclerView rec,ArrayList<String>ids,ArrayList<String>groupBalance){
-        this.data = data;
-        this.ctx=ctx;
-        this.data1=data1;
-        this.rec=rec;
-        this.ids=ids;
-        this.groupImage=groupImage;
-        this.groupBalance=groupBalance;
-        firebaseStorage=FirebaseStorage.getInstance();
-        storageReference=firebaseStorage.getReference().child("group_photos");
-        this.groupBalance=groupBalance;
+        this.data           = data;
+        this.ctx            = ctx;
+        this.data1          = data1;
+        this.rec            =rec;
+        this.ids            =ids;
+        this.groupImage     =groupImage;
+        this.groupBalance   =groupBalance;
+        firebaseStorage     =FirebaseStorage.getInstance();
+        storageReference    =firebaseStorage.getReference().child("group_photos");
+        this.groupBalance   =groupBalance;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -68,11 +68,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public TextView mTextView;
         public TextView moneyTextView;
         public ImageView imageView;
-        public  ProgressBar progressBar;
+        public ProgressBar progressBar;
         public ProgressBar progressImage;
         RelativeLayout relativeLayout;
         Context context;
-        public MyViewHolder(View v, final Context context,final RecyclerView rcc,final ArrayList<String>ids,final ArrayList<String>data,final ArrayList<String>data1,final ArrayList<String>groupName, final ArrayList<String>groupBalance){
+        public MyViewHolder(View v, final Context context,final RecyclerView rcc,final ArrayList<String>ids,final ArrayList<String>data,final ArrayList<String>data1,final ArrayList<String>groupImage, final ArrayList<String>groupBalance){
             super(v);
 
             mCardView = (CardView) v.findViewById(R.id.card_view);
@@ -91,7 +91,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     intent.putExtra("Id",ids.get(p));
                     intent.putExtra("Name",data.get(p));
                     intent.putExtra("Amount",data1.get(p));
-                    intent.putExtra("Image",groupName.get(p));
+                    intent.putExtra("Image",groupImage.get(p));
                     intent.putExtra("groupBalance",groupBalance.get(p));
                     //HomeActivity.homepage.finish();
                     HomeActivity.homepage.startActivity(intent);
@@ -101,7 +101,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(this.context,"CLicked",Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context,"Clicked",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -123,7 +123,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         //check if groupImage not equal to null
         if(groupImage.get(position)!="" && groupImage.get(position)!=null)
         {
-
             Picasso.with(ctx).load(groupImage.get(position)).into(holder.imageView,new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() {
@@ -152,9 +151,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.imageView.setImageDrawable(drawable);
         }
 
-        String target = data1.get(position);
-        int finalAmaunt = Integer.parseInt(target);
-        //int random = rand.nextInt(finalAmaunt)+0;
         int current=Integer.parseInt(groupBalance.get(position));
         int max=Integer.parseInt(data1.get(position));
         if(current < 1)
@@ -163,13 +159,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
         if(max < 1)
         {
-            max = current;
+            max = (current+(rand.nextInt((current*2) - (current/2))+(current/2)));
         }
         Log.e("current", groupBalance.get(position));
         Log.e("max", data1.get(position));
         int progressValue = (current*100)/max;
         holder.progressBar.setProgress(progressValue);
-        holder.moneyTextView.setText(currencyConverter(data1.get(position)));
+        holder.moneyTextView.setText(currencyConverter(groupBalance.get(position)));
         holder.mTextView.setText(data.get(position));
     }
     public String textTobeConverted(String data)

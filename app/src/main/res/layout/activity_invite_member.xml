@@ -81,7 +81,7 @@
             android:id="@+id/btnDOne"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="DONE"
+            android:text="FINISH"
             android:background="#007569"
             android:textColor="#fff"
             android:textSize="20sp" />
@@ -106,8 +106,16 @@
             android:background="#18b985"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="INVITE A PERSON"
+            android:text="ADD A PERSON"
             android:textColor="#fff" />
+        <ListView
+            android:id="@+id/invitelist"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:listSelector="#9cd8e7"
+            android:stackFromBottom="false"
+            android:layout_marginBottom="50dp"
+            android:layout_height="wrap_content"></ListView>
     </LinearLayout>
 
 </RelativeLayout>

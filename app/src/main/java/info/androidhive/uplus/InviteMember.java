@@ -12,15 +12,24 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.view.View;
 import android.util.Log;
 
+import org.json.JSONArray;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import info.androidhive.uplus.activity.BackgroundWorker;
@@ -37,6 +46,9 @@ public class InviteMember extends AppCompatActivity {
     Button btnDOne;
     Button btnInvite;
     CircleImageView add4nebtn;
+    ArrayList<String> addArray = new ArrayList<String>();
+    ListView show;
+    ArrayAdapter<String> adapter;
 
     private static final String TAG = InviteMember.class.getSimpleName();
     private static final int REQUEST_CODE_PICK_CONTACTS = 1;
@@ -50,6 +62,7 @@ public class InviteMember extends AppCompatActivity {
         setContentView(R.layout.activity_invite_member);
         btnInvite = (Button) findViewById(R.id.invitebtn);
         add4nebtn =(de.hdodenhof.circleimageview.CircleImageView)findViewById(R.id.add4nebtn);
+        show = (ListView) findViewById(R.id.invitelist);
 
         //check if in activity there are some data that come together
         Intent intent=getIntent();
@@ -101,7 +114,32 @@ public class InviteMember extends AppCompatActivity {
         btnInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inviteMember();
+                //inviteMember();
+                String getInput = txtInvited.getText().toString();
+                if(addArray.contains(getInput)){
+                    Toast.makeText(getBaseContext(), "Already selected this person", Toast.LENGTH_LONG).show();
+                }
+                else if(getInput == null || getInput.trim().equals("") || getInput.length() < 10 || getInput.length() > 17){
+                    Toast.makeText(getBaseContext(), "Please add a valid phone", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    addArray.add(getInput);
+                    adapter = new ArrayAdapter<String>(InviteMember.this, android.R.layout.simple_list_item_1, addArray);
+                    show.smoothScrollToPosition(0);
+                    adapter.notifyDataSetChanged();
+                    show.setAdapter(adapter);
+                    ((EditText)findViewById(R.id.txtInvited)).setText(" ");
+                    btnInvite.setText("ADD A PERSON");
+                }
+            }
+        });
+
+        registerForContextMenu(show);
+
+        show.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                Toast.makeText(InviteMember.this, addArray.get(position), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -109,6 +147,10 @@ public class InviteMember extends AppCompatActivity {
         btnDOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                JSONArray jsArray = new JSONArray(addArray);
+                //Toast.makeText(InviteMember.this, addArray.get(1), Toast.LENGTH_SHORT).show();
+                inviteMember();
                 Intent intent=new Intent(getApplicationContext(),groupdetails.class);
                 intent.putExtra("Id",addedId);
                 intent.putExtra("Name",Name);
@@ -117,6 +159,7 @@ public class InviteMember extends AppCompatActivity {
                 intent.putExtra("groupBalance",groupBalance);
                 finish();
                 startActivity(intent);
+
             }
         });
         }
@@ -225,21 +268,23 @@ public class InviteMember extends AppCompatActivity {
         }
 
         cursor.close();
-        btnInvite.setText("INVITE " +contactName);
+        btnInvite.setText("ADD " +contactName);
 
     }
 
         //method to invite members
     public void inviteMember()
     {
-        String invitePhone=txtInvited.getText().toString();
+        //String invitePhone=txtInvited.getText().toString();
+        JSONArray invitePhone = new JSONArray(addArray);
+
         String adminId= SharedPrefManager.getInstance(getApplicationContext()).getUserId();
         String method="invite";
         //create instance og backgroundWorker
         //check the dat submit
         String status="";
         int counter=0;
-        if(invitePhone!="")
+        if(invitePhone.length() > 0)
         {
             if(invitePhone.length()<20)
             {
@@ -252,7 +297,7 @@ public class InviteMember extends AppCompatActivity {
 //                bgWorker.execute(method,user,adminId,invitePhone);
 //                //call invite worker
                 InviteWorker inviteWorker=new InviteWorker(this,progress);
-                inviteWorker.execute(method,user,adminId,invitePhone);
+                inviteWorker.execute(method,user,adminId,invitePhone.toString());
             }
             else
             {
@@ -273,10 +318,9 @@ public class InviteMember extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(),status,Toast.LENGTH_LONG).show();
         }
-
     }
-    public void goBack()
-    {
+
+    public void goBack() {
       try
       {
           Intent newt=new Intent(getApplicationContext(), HomeActivity.class);
@@ -289,5 +333,27 @@ public class InviteMember extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_invitation,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo obj = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+
+        switch (item.getItemId()){
+            case R.id.deleteInvite:
+                addArray.remove(obj.position);
+                adapter.notifyDataSetChanged();
+                break;
+        }
+
+        return super.onContextItemSelected(item);
     }
 }

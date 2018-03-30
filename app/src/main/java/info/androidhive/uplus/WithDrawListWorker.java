@@ -9,7 +9,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
@@ -57,7 +57,7 @@ public class WithDrawListWorker extends AsyncTask<String,Void,String>
         NgroupAmount    =params[3];
         NgroupImage     =params[4];
         NgroupBalance   =params[5];
-        Log.e("GroupBalance ", NgroupBalance);
+        //Log.e("GroupBalance ", NgroupBalance);
         String login_url="http://67.205.139.137/api/index.php";
         if(type.equals("withdrawlist"))
         {
@@ -176,9 +176,9 @@ public class WithDrawListWorker extends AsyncTask<String,Void,String>
         notification.setAutoCancel(true);
         notification.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon));
         notification.setSmallIcon(R.drawable.icon);
-        notification.setTicker("Uplus Invitation");
+        notification.setTicker("Withdraw request");
         notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("Uplus Invitation");
+        notification.setContentTitle("Withdraw Request");
         notification.setStyle(new NotificationCompat.BigTextStyle()
                 .bigText(NmemberName+" Is requesting to withdraw "+Namount+" Rwf in "+NgroupName+", if you are the treasurer of this group, please Approve or Reject his/her request within 48 Hours."));
         notification.setContentText(NmemberName+" Is requesting to withdraw "+Namount+" Rwf");

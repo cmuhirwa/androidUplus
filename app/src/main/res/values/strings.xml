@@ -35,6 +35,9 @@
 
     <string-array name="Collection">
         <item>MTN Mobile Money</item>
+        <item>TIGO CASH</item>
+        <item>VISA CARD</item>
+        <item>MASTER CARD</item>
     </string-array>
     <!-- Strings related to login -->
     <string-array name="Account">

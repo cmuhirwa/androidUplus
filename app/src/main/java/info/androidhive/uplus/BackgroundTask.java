@@ -12,8 +12,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Vibrator;
 import android.provider.ContactsContract;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.widget.Toast;
@@ -170,7 +170,8 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                     //Log.i("group", data.get(j));
                     //Toast.makeText(ctx,"Balance of "+data.get(j)+". is: "+groupBalance.get(j),Toast.LENGTH_LONG).show();
 
-
+Log.e("Theresults",result);
+Log.e("TheBalance",groupBalance.get(j));
                     //Check if the group is new
                         if(dbHelper.checkGroupId(DataId.get(j))==false)
                         {
@@ -193,14 +194,16 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                         else
                         {
                             // progress.dismiss();
-                            // Check if the group image has changed
-                            if(dbHelper.checkGroupImage(DataId.get(j))==true)
+                            // Check if the group has changed
+                            if(dbHelper.checkGroupImage(DataId.get(j),data.get(j),grpName.get(j),groupImage.get(j),groupBalance.get(j))==false)
                             {
-                                dbHelper.updateGroupImage(DataId.get(j),groupImage.get(j),data.get(j));
+                                dbHelper.updateGroupImage(DataId.get(j),data.get(j),grpName.get(j),groupImage.get(j),groupBalance.get(j));
+                                Log.e("groupImg Wasent",groupImage.get(j));
                             }
                             else
                             {
-                                dbHelper.updateGroupImage(DataId.get(j),groupImage.get(j),data.get(j));
+                                Log.e("groupImg Was",groupBalance.get(j));
+                                //dbHelper.updateGroupImage(DataId.get(j),groupImage.get(j),data.get(j));
                             }
                         }
                         //Log.e("Lopping members of:", data.get(j)+" : "+groupImage.get(j));
@@ -258,6 +261,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
         intent.putExtra("Amount",NgroupAmount);
         intent.putExtra("Image",NgroupImage);
         intent.putExtra("groupBalance",NgroupBalance);
+        
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         notification.setContentIntent(pendingIntent);
 

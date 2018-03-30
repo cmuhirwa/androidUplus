@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#f4eade"
+    android:background="#f9f2ea"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="info.androidhive.uplus.fragments.OneFragment">
-   <RelativeLayout
+    <RelativeLayout
         android:id="@+id/layoutHomeGuide"
         android:layout_width="match_parent"
         android:visibility="gone"
@@ -22,14 +22,18 @@
             android:textStyle="bold"
             />
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_recycler_view"
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/pullHomeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"
-        android:clickable="true">
-    </android.support.v7.widget.RecyclerView>
-
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:clickable="true"/>
+    </com.baoyz.widget.PullRefreshLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabbtn"
         android:layout_width="wrap_content"
@@ -41,12 +45,11 @@
         android:layout_marginRight="@dimen/fab_margin_right"
         android:clickable="true"
         android:elevation="4dp"
-        app:srcCompat="@drawable/ic_add_black_24dp"
-        app:backgroundTint="#18b985"
+        app:srcCompat="@mipmap/addgroup1"
         app:elevation="4dp"
         app:fabSize="normal"
         app:layout_anchorGravity="bottom|right"
         app:pressedTranslationZ="12dp"
-        app:rippleColor="#00584C" />
-
+        app:backgroundTint="#18b985"
+        app:rippleColor="#00584C"/>
 </RelativeLayout>

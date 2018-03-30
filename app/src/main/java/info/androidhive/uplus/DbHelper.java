@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -167,10 +166,10 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
     //check group image if not equal to null
-    public boolean checkGroupImage(String groupId)
+    public boolean checkGroupImage(String groupId,  String groupName, String groupAmount, String groupImage, String groupBalance)
     {
-        String query="select * from groups where groupId='"+groupId+"' AND groupImage='null'";
-        SQLiteDatabase database=this.getWritableDatabase();;
+        String query="select * from groups where groupId='"+groupId+"' AND groupName='"+groupName+"' AND targetAmount='"+groupAmount+"' AND groupImage='"+groupImage+"' AND groupBalance='"+groupBalance+"'";
+        SQLiteDatabase database=this.getWritableDatabase();
         //create cursor to return data
         Cursor cursor=database.rawQuery(query,null);
         int counter=0;
@@ -189,9 +188,9 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
     //update groupImage
-    public void updateGroupImage(String groupId,String newImage ,String grpName)
+    public void updateGroupImage(String groupId,  String groupName, String groupAmount, String groupImage, String groupBalance)
     {
-        String query="UPDATE groups SET groupImage='"+newImage+"', groupName='"+grpName+"' WHERE groupId='"+groupId+"'";
+        String query="UPDATE groups SET groupName='"+groupName+"', targetAmount='"+groupAmount+"', groupImage='"+groupImage+"', groupBalance='"+groupBalance+"' WHERE groupId='"+groupId+"'";
         SQLiteDatabase database=this.getWritableDatabase();
         database.execSQL(query);
     }

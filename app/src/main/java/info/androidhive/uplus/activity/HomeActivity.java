@@ -81,6 +81,7 @@ import java.util.TimerTask;
 
 import info.androidhive.uplus.ChatHelp;
 import info.androidhive.uplus.DatabaseHelper;
+import info.androidhive.uplus.EventWorker;
 import info.androidhive.uplus.Invitation;
 import info.androidhive.uplus.PublicInviteWorker;
 import info.androidhive.uplus.Settings;
@@ -136,6 +137,7 @@ public class HomeActivity extends AppCompatActivity {
     public static Activity homepage ;
     ProgressDialog progress;
     private ListView list;
+    private String myString = "0";
     private int[] tabIcons = {
             R.drawable.groupicon,
             R.drawable.ic_tab_contacts,
@@ -169,6 +171,7 @@ public class HomeActivity extends AppCompatActivity {
                     .build());
         }
         super.onCreate(savedInstanceState);
+
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         root = mFirebaseDatabase.getReference().child("help");
@@ -210,18 +213,28 @@ public class HomeActivity extends AppCompatActivity {
                         Uri deepLink = null;
                         if (pendingDynamicLinkData != null) {
                             deepLink = pendingDynamicLinkData.getLink();
+
+                            String webOfLink = deepLink.toString();
+                            //Log.e("DeepLink", webOfLink);
                             //Keep it in the shared preference
                             if (deepLink != null) {
                                 String publicGid = deepLink.toString().replaceAll("[^\\d.]", "");
                                 publicGid = publicGid.replaceAll("[.]", "");
-
                                 publicGid = publicGid.replace('\'', '.');
+                                Log.e("DeepLinkId", publicGid);
+                                Log.e("DeepLinkId21", "is "+webOfLink);
+                                if(publicGid != null || publicGid != ""){
+                                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("info.androidhive.materialtabs", Context.MODE_PRIVATE);
+                                    sharedPreferences.edit().putString("deepLink", "YES").apply();
+                                    sharedPreferences.edit().putString("sharedLink", publicGid).apply();
+                                }
+                                else {
+                                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("info.androidhive.materialtabs", Context.MODE_PRIVATE);
+                                    sharedPreferences.edit().putString("deepLink", "").apply();
+                                    sharedPreferences.edit().putString("sharedLink", "").apply();
+                                    //Toast.makeText(HomeActivity.this,"Changed to: Not Stored",Toast.LENGTH_LONG).show();
 
-                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("info.androidhive.materialtabs", Context.MODE_PRIVATE);
-                                sharedPreferences.edit().putString("deepLink", "YES").apply();
-                                sharedPreferences.edit().putString("sharedLink", publicGid).apply();
-                                //Toast.makeText(HomeActivity.this,"Changed to: Stored",Toast.LENGTH_LONG).show();
-
+                                }
                             }
                             else {
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("info.androidhive.materialtabs", Context.MODE_PRIVATE);
@@ -255,21 +268,34 @@ public class HomeActivity extends AppCompatActivity {
                                     if (deepSLink != "") {
                                         final String publicGid = sharedPreferences.getString("sharedLink", null);
                                         //Toast.makeText(HomeActivity.this,"Which gave: "+publicGid,Toast.LENGTH_LONG).show();
+                                        Log.e("DeepLink4", "is "+publicGid);
 
-                                        //Get it from the shared pref
-                                        String method = "publicInvite";
-                                        progress = new ProgressDialog(HomeActivity.this);
-                                        progress.setCancelable(false);
-                                        progress.setMessage("Getting Invitation");
-                                        progress.show();
-                                        sharedPreferences.edit().putString("deepLink", "").apply();
-                                        sharedPreferences.edit().putString("sharedLink", "").apply();Intent intent1=getIntent();
-                                        intent1.putExtra("Load","2");
+                                        if(publicGid != null &&  publicGid != "" ) {
+                                            //Get it from the shared pref
+                                            Log.e("DeepLink7", "is "+publicGid);
 
+                                            String method = "publicInvite";
+                                            progress = new ProgressDialog(HomeActivity.this);
+                                            progress.setCancelable(false);
+                                            progress.setMessage("Getting Invitation");
+                                            progress.show();
+                                            sharedPreferences.edit().putString("deepLink", "").apply();
+                                            sharedPreferences.edit().putString("sharedLink", "").apply();
+                                            Intent intent1 = getIntent();
+                                            intent1.putExtra("Load", "2");
 
-                                        //sharedPreferences.edit().putString("deepLink", "NO").apply();
-                                        PublicInviteWorker publicInviteWorker = new PublicInviteWorker(getApplicationContext(), progress, publicGid);
-                                        publicInviteWorker.execute(method, publicGid);
+                                            //sharedPreferences.edit().putString("deepLink", "NO").apply();
+                                            PublicInviteWorker publicInviteWorker = new PublicInviteWorker(getApplicationContext(), progress, publicGid);
+                                            publicInviteWorker.execute(method, publicGid);
+
+                                        }
+                                        else{
+                                            sharedPreferences.edit().putString("deepLink", "").apply();
+                                            sharedPreferences.edit().putString("sharedLink", "").apply();
+
+                                            showLoader();
+                                        }
+
                                     }else{
 
                                         //Toast.makeText(HomeActivity.this,"But gave: "+deepSLink,Toast.LENGTH_LONG).show();
@@ -298,6 +324,11 @@ public class HomeActivity extends AppCompatActivity {
         showLoader();
         addToken();
 
+    }
+
+
+    public String getMyData() {
+        return myString;
     }
 
     private void setupTabIcons() {
@@ -453,6 +484,10 @@ public class HomeActivity extends AppCompatActivity {
                             //Toast.makeText(HomeActivity.this, "groups of ("+memberId+")", Toast.LENGTH_LONG).show();
                             BackgroundTask backgroundTask=new BackgroundTask(getApplicationContext(),progress);
                             backgroundTask.execute("add",memberId);
+
+                            EventWorker eventWorker = new EventWorker(getApplicationContext());
+                            eventWorker.execute("eventList1");
+
                         }
 
                     }
@@ -511,25 +546,57 @@ public class HomeActivity extends AppCompatActivity {
                     final String publicGid = sharedPreferences.getString("sharedLink", null);
                     //Toast.makeText(HomeActivity.this,"Which gave: "+publicGid,Toast.LENGTH_LONG).show();
 
-                    //Get it from the shared pref
-                    String method = "publicInvite";
-                    progress = new ProgressDialog(HomeActivity.this);
-                    progress.setCancelable(false);
-                    progress.setMessage("Getting Invitation");
-                    progress.show();
+                    if(publicGid != null || publicGid != "") {
+                        //Get it from the shared pref
+                        Log.e("DeepLink5", "is "+publicGid);
 
-                    sharedPreferences.edit().putString("deepLink", "").apply();
-                    sharedPreferences.edit().putString("sharedLink", "").apply();
-                    Intent intent1=getIntent();
-                    intent1.putExtra("Load","2");
+                        String method = "publicInvite";
+                        progress = new ProgressDialog(HomeActivity.this);
+                        progress.setCancelable(false);
+                        progress.setMessage("Getting Invitation");
+                        progress.show();
 
+                        sharedPreferences.edit().putString("deepLink", "").apply();
+                        sharedPreferences.edit().putString("sharedLink", "").apply();
+                        Intent intent1 = getIntent();
+                        intent1.putExtra("Load", "2");
 
-                    String memberId=SharedPrefManager.getInstance(getApplicationContext()).getUserId();
-                    BackgroundTask backgroundTask=new BackgroundTask(getApplicationContext(),progress);
-                    backgroundTask.execute("add",memberId);
+                        String memberId = SharedPrefManager.getInstance(getApplicationContext()).getUserId();
+                        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(), progress);
+                        backgroundTask.execute("add", memberId);
 
-                    PublicInviteWorker publicInviteWorker = new PublicInviteWorker(getApplicationContext(), progress, publicGid);
-                    publicInviteWorker.execute(method, publicGid);
+                        EventWorker eventWorker = new EventWorker(getApplicationContext());
+                        eventWorker.execute("eventList1");
+
+                        PublicInviteWorker publicInviteWorker = new PublicInviteWorker(getApplicationContext(), progress, publicGid);
+                        publicInviteWorker.execute(method, publicGid);
+                    }else{
+                        final ProgressDialog progress;
+                        progress = new ProgressDialog(this);
+                        progress.setTitle("Loading Content now");
+                        progress.setMessage("Please wait while we are setting up your account...");
+                        progress.show();
+
+                        String memberId=SharedPrefManager.getInstance(getApplicationContext()).getUserId();
+                        BackgroundTask backgroundTask=new BackgroundTask(getApplicationContext(),progress);
+                        backgroundTask.execute("add",memberId);
+
+                        EventWorker eventWorker = new EventWorker(getApplicationContext());
+                        eventWorker.execute("eventList1");
+
+                        progress.setCancelable(false);
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        progress.dismiss();
+                                        Intent intent1=getIntent();
+                                        intent1.putExtra("Load","2");
+                                        finish();
+                                        startActivity(intent1);
+                                        Toast.makeText(getApplicationContext(),"Done, Enjoy!",Toast.LENGTH_SHORT).show();
+                                    }
+                                }, 20000);
+                    }
                 }
                 else
                 {
@@ -542,6 +609,10 @@ public class HomeActivity extends AppCompatActivity {
                     String memberId=SharedPrefManager.getInstance(getApplicationContext()).getUserId();
                     BackgroundTask backgroundTask=new BackgroundTask(getApplicationContext(),progress);
                     backgroundTask.execute("add",memberId);
+
+                    EventWorker eventWorker = new EventWorker(getApplicationContext());
+                    eventWorker.execute("eventList1");
+
                     progress.setCancelable(false);
                     new android.os.Handler().postDelayed(
                             new Runnable() {

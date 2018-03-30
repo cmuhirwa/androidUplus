@@ -66,6 +66,14 @@ public class Login extends AppCompatActivity {
         ccp = (CountryCodePicker) findViewById(R.id.ccp);
 
         askPermission();
+        //    Dexter.withActivity(this)
+//          .withPermission(Manifest.permission.CAMERA)
+//	.withListener(new PermissionListener() {
+//        @Override public void onPermissionGranted(PermissionGrantedResponse response) {/* ... */}
+//        @Override public void onPermissionDenied(PermissionDeniedResponse response) {/* ... */}
+//        @Override public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {/* ... */}
+//    }).check();
+
         listenNetwork();
         loginAccount(btnLogin);
         fa=this;
@@ -100,6 +108,8 @@ public class Login extends AppCompatActivity {
             }
         },0,5000);
     }
+
+
     //FUNCTION TO ASK FOR PERMISSION
     public void askPermission() {
         try {
@@ -132,6 +142,11 @@ public class Login extends AppCompatActivity {
             }
         }
     }
+
+
+
+
+
     //function to login
     public void loginAccount(Button btn)
     {

@@ -142,6 +142,7 @@
         <activity android:name=".Receipt" />
         <activity android:name=".WithDraw" />
         <activity android:name=".IntroActivity" />
+        <activity android:name=".EventBokedQrPage" />
         <activity android:name=".Settings">
         </activity>
 

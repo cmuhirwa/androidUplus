@@ -24,7 +24,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/meddy" />
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
@@ -46,6 +45,21 @@
             android:text="10,000 Rwf "
             android:textSize="12sp"
             android:paddingBottom="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventIdHidden"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventTicketStatus"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventTicketCode"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

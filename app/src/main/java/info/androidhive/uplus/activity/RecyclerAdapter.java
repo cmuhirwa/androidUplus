@@ -4,12 +4,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -36,18 +40,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     Context ctx;
     Uri uri;
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        public CardView mCardView;
+       // public CardView mCardView;
         public TextView mTextView, moneyTextView, textView2, mMoneyOut;
         public ImageView imageView;
+        public RelativeLayout relativeLayout;// mCardView;
         public MyViewHolder(View v){
             super(v);
 
-            mCardView       = (CardView) v.findViewById(R.id.card1);
+            //mCardView       = (RelativeLayout) v.findViewById(R.id.card1);
             mTextView       = (TextView) v.findViewById(R.id.txtMember);
             moneyTextView   = (TextView) v.findViewById(R.id.textView3);
             textView2       = (TextView) v.findViewById(R.id.textView2);
-            //mMoneyOut       = (TextView) v.findViewById(R.id.outAmount);
-            imageView       = (ImageView)v.findViewById(R.id.imageView);
+            //mMoneyOut     = (TextView) v.findViewById(R.id.outAmount);
+            imageView       = (ImageView) v.findViewById(R.id.imageView);
+            relativeLayout  = (RelativeLayout) v.findViewById(R.id.memberCard);
 
         }
 
@@ -60,6 +66,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         this.mType      = mType;
         this.ctx        = ctx;
     }
+
     @Override
     public RecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
@@ -126,7 +133,36 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 .buildRound(textTobeConverted(mDataset.get(position)), color1);
         holder.imageView.setImageDrawable(drawable);
         */
+
+//        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(ctx, mDataset.get(position), Toast.LENGTH_LONG).show();
+//                //creating a popup menu
+//                /*
+//                PopupMenu popupMenu = new PopupMenu(ctx, holder.relativeLayout);
+//                //inflating menu from xml resource
+//                popupMenu.inflate(R.menu.member_menu);
+//
+//
+//
+//                //PopupMenu popupMenu = new PopupMenu(ctx, holder.mCardView);
+//                //popupMenu.getMenuInflater().inflate(R.menu.member_menu, popupMenu.getMenu());
+//
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem item) {
+//                        Toast.makeText(ctx, mDataset.get(position) +" " + item.getTitle(), Toast.LENGTH_LONG).show();
+//                        return true;
+//                    }
+//                });
+//
+//                popupMenu.show();
+//                */
+//            }
+//        });
     }
+
     public String currencyConverter(String data)
     {
         Locale locale = new Locale("RWF", "RWF");
@@ -134,6 +170,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         DecimalFormat decimalFormat=new DecimalFormat("#,### RWF");
         return(decimalFormat.format(value));
     }
+
     public String textTobeConverted(String data)
     {
         String newData="D";
@@ -144,6 +181,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         }
         return newData;
     }
+
     @Override
     public int getItemCount()
     {

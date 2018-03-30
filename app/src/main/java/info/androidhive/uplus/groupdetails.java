@@ -2,6 +2,7 @@ package info.androidhive.uplus;
 
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -19,18 +20,22 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -46,6 +51,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,7 +89,9 @@ import info.androidhive.uplus.fragments.OneFragment;
 import static android.R.id.progress;
 import static info.androidhive.uplus.R.id.action_Modify;
 import static info.androidhive.uplus.R.id.imageView;
+import static info.androidhive.uplus.R.id.itemTitle;
 import static info.androidhive.uplus.R.id.txtCurrent;
+import java.util.Random;
 
 
 public class groupdetails extends AppCompatActivity
@@ -104,12 +112,14 @@ public class groupdetails extends AppCompatActivity
     TextView txtError,textView3,txtCurrent,txtPercentage,txtGroupAmount,outAmount;
     ImageView profile_id;
     EditText editAmount,editAccount;
+    RelativeLayout exitGroup, withdrawCash;
     ArrayList<String> memberAmount=new ArrayList<String>();
     ArrayList<String>memberName=new ArrayList<String>();
     ArrayList<String>memberImage=new ArrayList<String>();
     ArrayList<String>memberType=new ArrayList<String>();
     ArrayList<String>memberId=new ArrayList<String>();
 
+    Random rand = new Random();
     String requestId;
     Uri Shortlink;
 
@@ -136,6 +146,9 @@ public class groupdetails extends AppCompatActivity
         progressBar     = (ProgressBar)findViewById(R.id.progressBar);
         appBtn          = (Button) findViewById(R.id.approveReq);
         rejBtn          = (Button) findViewById(R.id.rejReq);
+        exitGroup       = (RelativeLayout) findViewById(R.id.action_exit);
+        withdrawCash    = (RelativeLayout) findViewById(R.id.action_WithDraw);
+
         ffaa=this;
         Ids=intent.getStringExtra("Id");
         Name=intent.getStringExtra("Name");
@@ -226,7 +239,19 @@ public class groupdetails extends AppCompatActivity
             saveMembers=new SaveMembers(getApplicationContext());
             saveMembers.recreateTable();
 
-            textView3.setText(currencyConverter(Amount));
+            int current = Integer.parseInt(groupBalance);
+            if(current < 1)
+            {
+                current = 1;
+            }
+            if(Integer.parseInt(Amount) > 0)
+            {
+                textView3.setText("Target: "+currencyConverter(Amount));
+            }else{
+                int max = (current+(rand.nextInt((current*2) - (current/2))+(current/2)));
+                Amount = String.valueOf(max);
+                textView3.setText("Target: Any amount");
+            }
             loopLocal();
             //viewData1();
             profile_id=(ImageView)findViewById(R.id.profile_id);
@@ -235,6 +260,7 @@ public class groupdetails extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     //prepare some intent input extras
+
                     String userName = SharedPrefManager.getInstance(getApplicationContext()).getPhone();
                     Intent intent1=new Intent(getApplicationContext(),Chat_Room.class);
                     intent1.putExtra("user_name",userName);
@@ -244,6 +270,55 @@ public class groupdetails extends AppCompatActivity
 
                 }
             });
+            exitGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(isNetworkAvailable())
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(groupdetails.this);
+                        builder.setTitle("Exit Group");
+                        builder.setMessage("Are you sure you want to exit "+Name+" Group?");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String userId = SharedPrefManager.getInstance(getApplicationContext()).getUserId().toString();
+                                progress = new ProgressDialog(groupdetails.this);
+                                progress.setTitle("Working on it");
+                                progress.setCancelable(false);
+                                progress.setMessage("Please wait while we are Removing You...");
+                                progress.show();
+                                //delete from local database
+                                ExitGroup exitGroup=new ExitGroup(getApplicationContext(),progress);
+                                exitGroup.execute("exit",Ids,userId);
+//                    Toast.makeText(getApplicationContext(),"You are Not "+Name+" Member Anymore!",Toast.LENGTH_LONG).show();
+                                dialog.cancel();
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(),"Thanks to Be With Us",Toast.LENGTH_LONG).show();
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog exit = builder.create();
+                        exit.show();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(ffaa, "Please make sure you have Network", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            withdrawCash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    WithDraw();
+                }
+            });
+
             //Toast.makeText(this,Ids,Toast.LENGTH_LONG).show();
             Picasso.with(getApplicationContext())
                     .load(groupImage)
@@ -503,58 +578,19 @@ public class groupdetails extends AppCompatActivity
             Intent intent=getIntent();
             finish();
             startActivity(intent);
-        }*/
-        else if(clicked==R.id.action_WithDraw)
-        {
-            WithDraw();
-        }else if(clicked == R.id.action_Modify){
+        }*/else if(clicked == R.id.action_Modify){
             try{
                 Intent intent  = new Intent(getApplicationContext(), ModifyGroup.class);
                 intent.putExtra("ModGroupName",Name);
                 intent.putExtra("ModGroupId",holdGroupId);
                 intent.putExtra("ModGroupAmount",Amount);
+                intent.putExtra("groupBalance",groupBalance);
+                finish();
                 startActivity(intent);
             }catch (Exception ex){
                 ex.printStackTrace();
             }
 
-        }else if(clicked == R.id.action_exit){
-            if(isNetworkAvailable())
-            {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Exit Group");
-                builder.setMessage("Are you sure you want to exit "+Name+" Group?");
-                builder.setCancelable(true);
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String userId = SharedPrefManager.getInstance(getApplicationContext()).getUserId().toString();
-                        progress = new ProgressDialog(groupdetails.this);
-                        progress.setTitle("Waiting Status");
-                        progress.setCancelable(false);
-                        progress.setMessage("Please wait while we are Removing You...");
-                        progress.show();
-
-
-                        ExitGroup exitGroup=new ExitGroup(getApplicationContext(),progress);
-                        exitGroup.execute("exit",Ids,userId);
-                        dialog.cancel();
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),"Thanks for being with us",Toast.LENGTH_LONG).show();
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog exit = builder.create();
-                exit.show();
-            }
-            else
-            {
-                Toast.makeText(ffaa, "Please make sure you have Network", Toast.LENGTH_SHORT).show();
-            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -606,7 +642,7 @@ public class groupdetails extends AppCompatActivity
                 {
                     if(amount.length()>=3)
                     {
-                        Integer Gamount = Integer.parseInt(Amount);
+                        Integer Gamount = Integer.parseInt(groupBalance);
                         Integer Wamount = Integer.parseInt(amount);
                         if(Gamount > Wamount)
                         {
@@ -639,7 +675,7 @@ public class groupdetails extends AppCompatActivity
                         }
                         else
                         {
-                            error = "Please you can only request what the group has: "+Amount;
+                            error = "Please you can only request what the group has: "+groupBalance;
                         }
                     }
                     else
@@ -901,7 +937,6 @@ public class groupdetails extends AppCompatActivity
                }
             }
             // if($checkType == Group Tresuluer)
-
         } finally {
             cursor.close();
         }
@@ -1110,7 +1145,7 @@ public class groupdetails extends AppCompatActivity
                 progress = new ProgressDialog(groupdetails.this);
                 progress.setTitle("Approving request");
                 progress.setCancelable(false);
-                progress.setMessage("Please wait while we are rejecting the request...");
+                progress.setMessage("Please wait while we are approving the request...");
                 progress.show();
 
                 WithdrawConfirm withconf = new WithdrawConfirm(getApplicationContext(), progress);
@@ -1128,7 +1163,7 @@ public class groupdetails extends AppCompatActivity
         exit.show();
     }
 
-    public void showNotification(String withName, String withAmount)
+    public void showNotification(String withName, String withAmount) 
     {
         int uniqueID = 123;
         NotificationCompat.Builder notification=new NotificationCompat.Builder(this);
@@ -1149,8 +1184,5 @@ public class groupdetails extends AppCompatActivity
         //Builds notification and isuing it
         NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(uniqueID, notification.build());
-
     }
-
-
 }

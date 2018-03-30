@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="7dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/carding">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/ticketName1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/ticketamount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount Rwf"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="4dp"
+            android:layout_below="@+id/ticketName1"
+            android:layout_alignParentLeft="true"/>
+
+         <Button
+            android:id="@+id/btnBook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:text="BOOK"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:theme="@style/AppTheme.Gray"     android:layout_alignParentRight="true"
+             android:layout_alignParentEnd="true"/>
+
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

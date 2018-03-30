@@ -45,7 +45,7 @@ import info.androidhive.uplus.SaveGroupLocal;
 import info.androidhive.uplus.groupdetails;
 
 public class ModifyGroup extends AppCompatActivity {
-    public static Activity fafa;
+    public static Activity ModifyPage;
     private static final int GALLERY_REQUEST=1;
     BottomSheetDialog dialog;
     private Uri mImageUri;
@@ -60,7 +60,7 @@ public class ModifyGroup extends AppCompatActivity {
     Button btnAdd;
     Button btn_cancel;
     ImageView btnImgGroup;
-    String targetAmount, targetType, perPersonType, gId, ModGroupAmount;
+    String targetAmount, targetType, perPersonType, gId, ModGroupAmount, groupBalance;
     Spinner sp4;
     Spinner sp3;
     String uploadedGroupName="";
@@ -80,6 +80,7 @@ public class ModifyGroup extends AppCompatActivity {
         gId = id.getStringExtra("ModGroupId");
         final String gpName = id.getStringExtra("ModGroupName");
         ModGroupAmount=id.getStringExtra("ModGroupAmount");
+        groupBalance = id.getStringExtra("groupBalance");
         txtAMounts=(EditText)findViewById(R.id.txtAmount);
         txtAMounts.setText(ModGroupAmount);
         txtGroup.setText(gpName);
@@ -93,7 +94,7 @@ public class ModifyGroup extends AppCompatActivity {
             finish();
         }
 
-        fafa=this;
+        ModifyPage=this;
         firebaseStorage=FirebaseStorage.getInstance();
         storageReference=firebaseStorage.getReference().child("group_photos");
         btnImgGroup=(ImageView) findViewById(R.id.btnImgGroup);
@@ -378,7 +379,7 @@ public class ModifyGroup extends AppCompatActivity {
                                 progress.setMessage("Please wait while we are Modifying group...");
                                 progress.show();
                                 ModifyWorker modifyWorker=new ModifyWorker(this,progress);
-                                modifyWorker.execute("modify",grpName,sentString,targetAmount,perPersonType,perPerson,adminId,gId);
+                                modifyWorker.execute("modify",grpName,sentString,targetAmount,perPersonType,perPerson,adminId,gId,uploadedGroupName, groupBalance);
 
                             }
                         }

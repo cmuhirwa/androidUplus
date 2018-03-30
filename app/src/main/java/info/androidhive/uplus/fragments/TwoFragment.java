@@ -144,14 +144,15 @@ public class TwoFragment extends Fragment implements SearchView.OnQueryTextListe
         SearchView searchView= (SearchView) MenuItemCompat.getActionView(menuItem);
 
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem mSearchMenuItem = menu.findItem(R.id.menu_item);
         SearchView searchView = (SearchView) mSearchMenuItem.getActionView();
         searchView.setOnQueryTextListener(this);
     }
-    public void setAdapterContacts(ArrayList<Contact> listContact)
-    {
+
+    public void setAdapterContacts(ArrayList<Contact> listContact) {
 
         adapterContacts = new ContactsAdapter(getActivity(), listContact);
 
